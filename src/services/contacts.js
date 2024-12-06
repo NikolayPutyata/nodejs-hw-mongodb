@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors';
 import { SORT_ORDER } from '../constants/index.js';
 import { ContactsCollection } from '../db/models/contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
@@ -39,10 +40,15 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = async (contactId, user) => {
-  const contact = await ContactsCollection.findById(contactId);
-  if (contact.userId !== String(user._id)) {
-    return null;
+  const contact = await ContactsCollection.findOne({
+    _id: contactId,
+    userId: user._id,
+  });
+
+  if (!contact) {
+    throw createHttpError(404, 'Contact not found');
   }
+
   return contact;
 };
 
@@ -55,13 +61,8 @@ export const postContactById = async (newContact, user) => {
 };
 
 export const updateContact = async (user, contactId, payload, options = {}) => {
-  const contact = await ContactsCollection.findById(contactId);
-  if (contact.userId !== String(user._id)) {
-    return null;
-  }
-
   const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId },
+    { _id: contactId, userId: user._id },
     payload,
     {
       new: true,
@@ -79,11 +80,14 @@ export const updateContact = async (user, contactId, payload, options = {}) => {
 };
 
 export const deleteContact = async (contactId, user) => {
-  const contact = await ContactsCollection.findById(contactId);
-  if (contact.userId !== String(user._id)) {
-    return null;
+  const deletedContact = await ContactsCollection.findOneAndDelete({
+    _id: contactId,
+    userId: user._id,
+  });
+
+  if (!deletedContact) {
+    throw createHttpError(404, 'Contact not found');
   }
 
-  const deletedContact = await ContactsCollection.findByIdAndDelete(contactId);
   return deletedContact;
 };
