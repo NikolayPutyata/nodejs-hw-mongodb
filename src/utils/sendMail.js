@@ -10,13 +10,6 @@ const transporter = nodemailer.createTransport({
     user: env(SMTP.SMTP_USER),
     pass: env(SMTP.SMTP_PASSWORD),
   },
-
-  // додавання цієї частини вирішує проблему, і запит успішний, але повідомлення на пошту не приходить
-  tls: {
-    rejectUnauthorized: false,
-  },
-
-  //
 });
 
 export const sendEmail = async (options) => {
