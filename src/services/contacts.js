@@ -52,18 +52,25 @@ export const getContactById = async (contactId, user) => {
   return contact;
 };
 
-export const postContactById = async (newContact, user) => {
+export const postContactById = async (photoUrl, newContact, user) => {
   const contact = await ContactsCollection.create({
     userId: user._id,
     ...newContact,
+    photo: photoUrl,
   });
   return contact;
 };
 
-export const updateContact = async (user, contactId, payload, options = {}) => {
+export const updateContact = async (
+  photoUrl,
+  user,
+  contactId,
+  payload,
+  options = {},
+) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
     { _id: contactId, userId: user._id },
-    payload,
+    { ...payload, photo: photoUrl },
     {
       new: true,
       includeResultMetadata: true,
