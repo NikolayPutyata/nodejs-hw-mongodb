@@ -198,7 +198,8 @@
                   "phoneNumber",
                   "email",
                   "contactType",
-                  "userId"
+                  "isFavourite",
+                  "photo"
                 ],
                 "properties": {
                   "name": {
@@ -225,11 +226,6 @@
                     "description": "Is contact favourite",
                     "type": "boolean",
                     "example": false
-                  },
-                  "userId": {
-                    "description": "Contact's user id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
                   },
                   "photo": {
                     "description": "Contact's photo",
@@ -382,6 +378,14 @@
                   "isFavourite": {
                     "type": "boolean",
                     "example": true
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "other"
+                    ]
                   }
                 },
                 "additionalProperties": false

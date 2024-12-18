@@ -32,6 +32,9 @@ requestBody:
           isFavourite:
             type: boolean
             example: true
+          contactType:
+            type: string
+            enum: ['work', 'home', 'other']
 
         additionalProperties: false
 responses:
