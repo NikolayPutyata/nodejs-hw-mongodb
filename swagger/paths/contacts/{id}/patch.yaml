@@ -16,7 +16,7 @@ requestBody:
   description: Fields to update for the contact
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
         type: object
         properties:
@@ -35,6 +35,9 @@ requestBody:
           contactType:
             type: string
             enum: ['work', 'home', 'other']
+          photo:
+            type: string
+            format: binary
 
         additionalProperties: false
 responses:
